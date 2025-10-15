@@ -1,11 +1,12 @@
-import NextLink from 'next/link'
-import { useTransitionRouter } from './use-transition-router'
-import * as React from 'react'
+import NextLink from 'next/link';
+import {useTransitionRouter} from './use-transition-router';
+import * as React from 'react';
 
 // copied from https://github.com/vercel/next.js/blob/66f8ffaa7a834f6591a12517618dce1fd69784f6/packages/next/src/client/link.tsx#L180-L191
 function isModifiedEvent(event: React.MouseEvent): boolean {
   const eventTarget = event.currentTarget as HTMLAnchorElement | SVGAElement
   const target = eventTarget.getAttribute('target')
+  // noinspection JSDeprecatedSymbols
   return (
     (target && target !== '_self') ||
     event.metaKey ||
@@ -25,12 +26,7 @@ function shouldPreserveDefault(
   // anchors inside an svg have a lowercase nodeName
   const isAnchorNodeName = nodeName.toUpperCase() === 'A'
 
-  if (isAnchorNodeName && isModifiedEvent(e)) {
-    // ignore click for browser’s default behavior
-    return true
-  }
-
-  return false
+  return isAnchorNodeName && isModifiedEvent(e);
 }
 
 // This is a wrapper around next/link that explicitly uses the router APIs
