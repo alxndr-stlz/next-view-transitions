@@ -1,3 +1,5 @@
+'use client';
+
 import {use, useEffect, useRef, useState} from 'react';
 import {usePathname, useSearchParams} from 'next/navigation';
 import {useHash} from './use-hash';

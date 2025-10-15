@@ -1,9 +1,11 @@
+"use client";
+
 import NextLink from 'next/link';
 import {useTransitionRouter} from './use-transition-router';
-import * as React from 'react';
+import {ComponentProps, forwardRef, MouseEvent, useCallback} from 'react';
 
 // copied from https://github.com/vercel/next.js/blob/66f8ffaa7a834f6591a12517618dce1fd69784f6/packages/next/src/client/link.tsx#L180-L191
-function isModifiedEvent(event: React.MouseEvent): boolean {
+function isModifiedEvent(event: MouseEvent): boolean {
   const eventTarget = event.currentTarget as HTMLAnchorElement | SVGAElement
   const target = eventTarget.getAttribute('target')
   // noinspection JSDeprecatedSymbols
@@ -19,7 +21,7 @@ function isModifiedEvent(event: React.MouseEvent): boolean {
 
 // copied from https://github.com/vercel/next.js/blob/66f8ffaa7a834f6591a12517618dce1fd69784f6/packages/next/src/client/link.tsx#L204-L217
 function shouldPreserveDefault(
-  e: React.MouseEvent<HTMLAnchorElement>
+  e: MouseEvent<HTMLAnchorElement>
 ): boolean {
   const { nodeName } = e.currentTarget
 
@@ -32,15 +34,15 @@ function shouldPreserveDefault(
 // This is a wrapper around next/link that explicitly uses the router APIs
 // to navigate, and trigger a view transition.
 
-const Link = React.forwardRef<
+const Link = forwardRef<
   HTMLAnchorElement,
-  React.ComponentProps<typeof NextLink>
+  ComponentProps<typeof NextLink>
 >((props, ref) => {
   const router = useTransitionRouter();
 
   const { href, as, replace, scroll } = props;
-  const onClick = React.useCallback(
-    (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const onClick = useCallback(
+    (e: MouseEvent<HTMLAnchorElement>) => {
       if (!href && !as) {
         return;
       }
