@@ -5,11 +5,11 @@ import { useBrowserNativeTransitions } from './browser-native-events'
 
 const ViewTransitionsContext = createContext<
   Dispatch<SetStateAction<(() => void) | null>>
->(() => () => {})
+>(null)
 
 export function ViewTransitions({
-  children,
-}: Readonly<{
+                                  children,
+                                }: Readonly<{
   children: React.ReactNode
 }>) {
   const [finishViewTransition, setFinishViewTransition] = useState<
@@ -33,5 +33,13 @@ export function ViewTransitions({
 }
 
 export function useSetFinishViewTransition() {
-  return use(ViewTransitionsContext)
+  const context = use(ViewTransitionsContext)
+
+  if (!context) {
+    throw new Error(
+      'useSetFinishViewTransition must be used within a ViewTransitions component',
+    )
+  }
+
+  return context
 }
